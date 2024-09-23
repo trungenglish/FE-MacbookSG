@@ -1,10 +1,14 @@
 import './index.css';
+import Header from "./components/layout/Header.jsx";
+import Footer from "./components/layout/Footer.jsx";
 
 function App() {
 
   return (
     <>
-       hello
+        <Header />
+        hello
+        <Footer />
     </>
   )
 }
