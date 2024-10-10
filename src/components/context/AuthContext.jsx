@@ -5,13 +5,17 @@ export const AuthContext = createContext({
     user: {
         email: '',
         name: '',
+        phone: '',
+        city: '',
     }
 });
 
 export const AuthWrapper = (props) => {
     const [user, setUser] = useState({
-        email:"",
-        name: "",
+        email:'',
+        name: '',
+        phone: '',
+        city: '',
     });
     return (
         <AuthContext.Provider value={{user, setUser}}>
