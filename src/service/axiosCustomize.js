@@ -23,11 +23,34 @@ instance.interceptors.response.use(function (response) {
         return response.data;
     }
     return response;
-}, function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
-    if (error?.response?.data)
-        return error?.response?.data;
+}, async (error) => {
+    const originalRequest = error.config;
+    // Kiểm tra nếu lỗi là 401 và chưa thử lại
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true; // Đánh dấu đã thử lại
+
+        try {
+            // Gọi API để refresh token
+            const refreshToken = localStorage.getItem('refresh_token');
+            const response = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/refresh-token`,
+                { refreshToken }
+            );
+
+            // Lưu access token mới và gửi lại request ban đầu
+            const newAccessToken = response.data.access_token;
+            localStorage.setItem('access_token', newAccessToken);
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+            return instance(originalRequest); // Gửi lại request
+        } catch (refreshError) {
+            console.error('Unable to refresh token:', refreshError);
+            //logout and clear token
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            window.location.href = '/login';
+            return Promise.reject(refreshError);
+        }
+    }
     return Promise.reject(error);
 });
 
