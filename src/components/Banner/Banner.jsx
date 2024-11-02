@@ -11,7 +11,7 @@ import banner3 from '../../assets/banner3.jpg';
 
 const Banner = () => { 
   return (
-    <div className="w-full h-auto md:h-[400px] lg:h-[500px] xl:h-[600px]"> 
+    <div className="w-full overflow-hidden h-auto md:h-[400px] lg:h-[500px] xl:h-[600px] ">
       {/* Responsive chiều cao: 
             - h-auto cho màn hình nhỏ
             - md:h-[400px] cho màn hình trung bình

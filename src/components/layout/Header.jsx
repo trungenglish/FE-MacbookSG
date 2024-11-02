@@ -1,28 +1,39 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import logo from '../../assets/logo.jpg';
 import dc from '../../assets/dc.jpg';
 import sdt from '../../assets/sdt.jpg';
 import use from '../../assets/use.jpg';
 import giohang from '../../assets/giohang.jpg';
 import seach from '../../assets/seach.jpg';
+import dangnhap from '../../assets/dangnhap.jpg';
+import dangki from '../../assets/dangki.jpg';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [activeItem, setActiveItem] = useState('TRANG CHỦ');
+    const [isDropdownOpenAuth, setIsDropdownOpenAuth] = useState(false);
+    const navigate = useNavigate();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const toggleDropdownAuth = () => {
+        setIsDropdownOpenAuth((prev) => !prev);
+    };
+
     const handleItemClick = (item) => {
         setActiveItem(item);
+        setIsMenuOpen(false);
     };
 
     return (
         <header className="bg-white shadow-md py-4 px-24">
-            <div className="container mx-auto flex justify-between items-center px-4 lg:px-0">
+            <div className=" container mx-auto flex justify-between items-center px-4 lg:px-0">
                 {/* Logo */}
-                <div className="flex items-center">
+                <div className="cursor-pointer flex items-center"
+                    onClick={() => navigate("/")}>
                     <img
                         src={logo}
                         alt="Macbook Saigon"
@@ -30,7 +41,7 @@ const Header = () => {
                     />
                 </div>
 
-                {/* Search Bar cho cả màn hình lớn và nhỏ */}
+                {/* Search Bar */}
                 <div className="flex-grow mx-4 relative flex">
                     <input
                         type="text"
@@ -46,7 +57,8 @@ const Header = () => {
 
                 {/* Contact Info - chỉ hiện trên màn hình lớn */}
                 <div className="hidden lg:flex items-center space-x-8">
-                    <div className="flex items-center space-x-2 cursor-pointer hover:text-orange-500 transition duration-300">
+                    <div className="flex items-center space-x-2 cursor-pointer hover:text-orange-500 transition duration-300"
+                        onClick={() => navigate("/branch")}>
                         <img src={dc} alt="Địa chỉ" className="h-6" />
                         <div>
                             <p className="text-sm font-semibold">Hệ Thống Chi Nhánh</p>
@@ -62,10 +74,39 @@ const Header = () => {
                         </div>
                     </div>
 
-                    <div className="flex items-center space-x-4">
-                        <div className="cursor-pointer hover:text-orange-500 transition duration-300">
+                    <div className="flex items-center space-x-4 relative">
+                        <div className="cursor-pointer hover:text-orange-500 transition duration-300" onClick={toggleDropdownAuth}>
                             <img src={use} alt="User" className="h-10" />
                         </div>
+
+                        {/* Dropdown Đăng Nhập và Đăng Kí */}
+                        {isDropdownOpenAuth && (
+                            <div className="absolute top-6 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                                <div className="flex flex-col">
+                                    <button
+                                        onClick={() => {
+                                            navigate('/login')
+                                            setIsDropdownOpenAuth(false);
+                                        }}
+                                        className="flex items-center px-4 py-3 hover:bg-gray-100"
+                                    >
+                                        <img src={dangnhap} alt="Đăng Nhập Icon" className="h-6 w-6 mr-2" />
+                                        Đăng Nhập
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            navigate('/register')
+                                            setIsDropdownOpenAuth(false);
+                                        }}
+                                        className="flex items-center px-4 py-3 hover:bg-gray-100"
+                                    >
+                                        <img src={dangki} alt="Đăng Kí Icon" className="h-6 w-6 mr-2" />
+                                        Đăng Kí
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
                         <div className="cursor-pointer hover:text-orange-500 transition duration-300">
                             <img src={giohang} alt="Cart" className="h-8" />
                         </div>
@@ -113,25 +154,12 @@ const Header = () => {
             {/* Navigation Bar */}
             <nav className={`${isMenuOpen ? 'block' : 'hidden'} lg:flex mt-4 bg-white lg:mt-3`}>
                 <div className="container mx-auto flex flex-col lg:flex-row lg:justify-center space-y-2 lg:space-y-0 lg:space-x-3 py-1">
-                    {[
-                        'TRANG CHỦ',
-                        'MACBOOK',
-                        'MACBOOK99',
-                        'IPHONE',
-                        'IPAD',
-                        'IMAC',
-                        'SURFACE',
-                        'PHỤ KIỆN',
-                        'BẢO HÀNH',
-                        'LIÊN HỆ',
-                        'VẬN CHUYỂN',
-                    ].map((item, index) => (
+                    {['TRANG CHỦ', 'MACBOOK', 'MACBOOK99', 'IPHONE', 'IPAD', 'IMAC', 'SURFACE', 'PHỤ KIỆN', 'BẢO HÀNH', 'LIÊN HỆ', 'VẬN CHUYỂN'].map((item, index) => (
                         <a
                             key={index}
                             href="#"
                             onClick={() => handleItemClick(item)}
-                            className={`text-sm lg:text-base font-semibold relative transition-all duration-300 ease-in-out
-                ${activeItem === item ? 'bg-orange-500 text-white px-4 py-2 rounded' : 'text-gray-700 hover:bg-orange-500 hover:text-white px-4 py-2 rounded'}`}
+                            className={`text-sm lg:text-base font-semibold relative transition-all duration-300 ease-in-out ${activeItem === item ? 'bg-orange-500 text-white px-4 py-2 rounded' : 'text-gray-700 hover:bg-orange-500 hover:text-white px-4 py-2 rounded'}`}
                         >
                             {item}
                         </a>

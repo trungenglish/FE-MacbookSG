@@ -1,7 +1,7 @@
 import React from 'react';
-import icondv from '../../assets/icondv.jpg';
-import icondv1 from '../../assets/icondv1.jpg';
-import icondv2 from '../../assets/icondv2.jpg';
+import icondv from '../../../assets/icondv.jpg';
+import icondv1 from '../../../assets/icondv1.jpg';
+import icondv2 from '../../../assets/icondv2.jpg';
 
 const DichVu = () => {
   return (
