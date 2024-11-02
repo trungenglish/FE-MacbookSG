@@ -1,8 +1,8 @@
 import React from 'react';
-import suachua from '../../assets/suachua.jpg';
-import ip13 from '../../assets/ip13.jpg';
-import phukien from '../../assets/phukien.jpg';
-import mb from '../../assets/mb.jpg';
+import suachua from '../../../assets/suachua.jpg';
+import ip13 from '../../../assets/ip13.jpg';
+import phukien from '../../../assets/phukien.jpg';
+import mb from '../../../assets/mb.jpg';
 
 const DanhMucNB = () => {
   const categories = [

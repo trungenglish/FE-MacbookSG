@@ -1,6 +1,6 @@
 import React from 'react';
-import productImage from '../../assets/product.jpg';
-import cartIcon from '../../assets/giohang.jpg';
+import productImage from '../../../assets/product.jpg';
+import cartIcon from '../../../assets/giohang.jpg';
 
 const HotSale = () => {
   const products = [
