@@ -3,65 +3,62 @@ import TraGop from '../assets/warrantyPolicy.png';
 
 const WarrantyPolicy = () => {
     return (
-        <div>
-
-            {/* Warranty Policy Content */}
-            <main className="bg-gray-50 py-8">
-                <div className="container mx-auto px-4">
-                    <h1 className="text-2xl font-bold mb-4">Trả góp</h1>
-
-                    {/* Installment Terms */}
-                    <section className="bg-white p-6 rounded-lg shadow-md mb-8">
-                        <h2 className="text-xl font-semibold mb-4">1. Trả góp qua Công ty tài chính (HD SAISON, Mirae Asset)</h2>
-                        <ul className="space-y-3 text-gray-700">
-                            <li>- Mua hàng trả góp qua các công ty tài chính yêu cầu khách hàng phải trả trước bằng tiền mặt từ 20% đến 70% giá trị sản phẩm.</li>
-                            <li>- Không cần thẻ tín dụng, không cần giấy tờ chứng minh thu nhập.</li>
-                            <li>- Chỉ cần có CMND bản gốc hoặc CCCD bản gốc và Hộ Khẩu/ Bằng lái xe bản gốc.</li>
-                        </ul>
-                    </section>
-
-                    {/* Payment Options */}
-                    <section className="bg-white p-6 rounded-lg shadow-md mb-8">
-                        <h2 className="text-xl font-semibold mb-4">2. Trả góp qua thẻ tín dụng</h2>
-                        <img src={TraGop} alt="Payment Methods" className="w-full mb-4 rounded" />
-                        <p className="text-gray-700">
-                            Khách hàng có thể thanh toán bằng các loại thẻ của các ngân hàng tại Việt Nam và thế giới bao gồm: Visa, JCB, Master Card.
-                        </p>
-                    </section>
-
-                    {/* Payment Advantages and Disadvantages */}
-                    <section className="bg-white p-6 rounded-lg shadow-md mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="border p-4 rounded-lg">
-                            <h3 className="text-lg font-semibold mb-2">Điểm Mạnh</h3>
-                            <ul className="space-y-2 text-gray-700">
-                                <li>+ Khách hàng có thể mua sắm ngay cả khi chưa đủ tiền.</li>
-                                <li>+ Không cần chứng minh thu nhập.</li>
-                                <li>+ Không cần thế chấp tài sản.</li>
-                                <li>+ Có thể trả trước từ 20% - 50% giá trị sản phẩm.</li>
-                            </ul>
-                        </div>
-                        <div className="border p-4 rounded-lg">
-                            <h3 className="text-lg font-semibold mb-2">Điểm Yếu</h3>
-                            <ul className="space-y-2 text-gray-700">
-                                <li>- Chi phí chuyển đổi trả góp có thể cao.</li>
-                                <li>- Một số ngân hàng yêu cầu thu phí dịch vụ.</li>
-                            </ul>
-                        </div>
-                    </section>
-
-                    {/* Contact Details */}
-                    <section className="bg-white p-6 rounded-lg shadow-md">
-                        <div className="text-center">
-                            <h3 className="text-lg font-semibold mb-2">HỒ KINH DOANH MACBOOK SAIGON</h3>
-                            <p className="text-gray-700">Chuyên Buôn bán, sửa chữa điện thoại, Ipad, Macbook,...</p>
-                            <p className="text-gray-700">Địa chỉ: 69/17 Lê Văn Sỹ - P13 - Phú Nhuận - HCM</p>
-                            <p className="text-gray-700">Hotline: 0901.633.211</p>
-                            <p className="text-gray-700">Hỗ trợ bảo hành: 0901.633.211</p>
-                            <p className="text-gray-700">Trả góp: 0901.633.211</p>
-                        </div>
-                    </section>
-                </div>
-            </main>
+        <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md mt-10">
+            <h1 className="text-2xl font-bold mb-4 text-gray-800">Chính Sách Bảo Hành</h1>
+            <h2 className="text-xl font-semibold mb-2 text-gray-700">Điều Kiện Bảo Hành iTech Mobile</h2>
+            <p className="mb-4">(Quý khách hàng vui lòng đọc kỹ ngay khi mua máy)</p>
+            <p className="mb-4">
+                Trong thời gian bảo hành, chúng tôi chỉ bảo hành những vật liệu, linh kiện bị hư hỏng
+                trong điều kiện sử dụng bình thường. Sau thời gian bảo hành, chi phí sửa chữa sẽ được ưu đãi.
+            </p>
+            <p className="mb-4">
+                Các điều kiện bảo hành có giới hạn của nhà sản xuất như Apple, Samsung, Dell, Lenovo, Asus,... Cụ thể
+                như
+                sau:
+            </p>
+            <ul className="list-disc ml-6 mb-4">
+                <li>Các sản phẩm iPhone, iPad, Macbook, Laptop, Apple Watch được bảo test trong vòng 07 ngày đầu tiên (1
+                    đổi
+                    1 với máy có lỗi).
+                </li>
+                <li><strong>iPhone</strong>: 12 tháng, bao gồm bảo hành pin (dưới 80% thay thế miễn phí).</li>
+                <li><strong>iPad</strong>: 12 tháng.</li>
+                <li><strong>Macbook – Laptop</strong>: 06 tháng (Phụ kiện sạc cáp đi kèm bảo hành 01 tháng 1 đổi 1).
+                </li>
+                <li><strong>Đối với Macbook</strong>: Không bảo hành trường hợp mất gói Apple Care đi với những máy có
+                    sẵn
+                    Apple Care từ ban đầu.
+                </li>
+                <li><strong>Apple Watch</strong>: 06 tháng.</li>
+                <li>Phụ kiện tai nghe, bàn phím, loa,...: 01 tháng 1 đổi 1.</li>
+                <li>Phụ kiện sạc cáp mua riêng không kèm theo máy: 06 tháng 1 đổi 1.</li>
+            </ul>
+            <h3 className="text-lg font-semibold mb-2 text-gray-700">Những trường hợp sau đây đủ điều kiện bảo
+                hành:</h3>
+            <ul className="list-disc ml-6 mb-4">
+                <li>Các sản phẩm có lỗi do nhà sản xuất.</li>
+                <li>Sản phẩm phải còn nguyên vẹn, chưa bị sửa chữa bởi các nơi khác ngoài hệ thống của hàng iTech
+                    Mobile.
+                </li>
+                <li>Số serial máy, kiểu máy trên sản phẩm phải trùng với số serial máy, kiểu máy trên phiếu bảo hành.
+                </li>
+                <li>Tem bảo hành phải còn nguyên vẹn, tránh trường hợp rách, mất tem.</li>
+            </ul>
+            <h3 className="text-lg font-semibold mb-2 text-gray-700">Những trường hợp sau đây không được bảo hành:</h3>
+            <ul className="list-disc ml-6 mb-4">
+                <li>Các sản phẩm đã hết hạn bảo hành.</li>
+                <li>Các sản phẩm bị lỗi màn hình, chức năng vân tay, chức năng Face ID, vấn đề về chip CPU (laptop),
+                    chip
+                    GPU (laptop) và nguồn điện của máy.
+                </li>
+                <li>Các sản phẩm bị lỗi do người dùng cố tình sử dụng máy cho mục đích vượt quá công suất của máy do nhà
+                    sản
+                    xuất đưa ra như ép xung CPU, ép xung GPU, đào Bitcoin,... (đối với laptop).
+                </li>
+                <li>Các sản phẩm có dấu hiệu rơi vỡ, va đập, cấn mép, vỏ nứt hoặc có sự tác động của yếu tố thứ ba.</li>
+            </ul>
+            <p className="italic text-gray-600">Lưu ý: Thời gian bảo hành từ 13h00 đến 21h00, trừ ngày lễ và chủ
+                nhật.</p>
         </div>
     );
 };

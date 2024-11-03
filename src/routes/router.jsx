@@ -8,6 +8,8 @@ import BranchInfo from "../pages/BranchInfo.jsx";
 import detailProduct from "../pages/DetailProduct.jsx";
 import DetailProduct from "../pages/DetailProduct.jsx";
 import WarrantyPolicy from "../pages/WarrantyPolicy.jsx";
+import DeliveryPage from "../pages/Delivery.jsx";
+import InstallmentPolicyPage from "../pages/installmentPolicy.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -40,9 +42,17 @@ export const router = createBrowserRouter([
                 element: <DetailProduct />,
             },
             {
+                path: "deliveryPolicy",
+                element: <DeliveryPage />,
+            },
+            {
                 path: "warrantyPolicy",
                 element: <WarrantyPolicy />,
             },
+            {
+                path: "installmentPolicy",
+                element: <InstallmentPolicyPage />,
+            }
         ]
     },
 ]);

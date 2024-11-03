@@ -23,22 +23,38 @@ const Header = () => {
         setIsDropdownOpenAuth((prev) => !prev);
     };
 
+    // Mapping menu items to routes
+    const routeMap = {
+        'TRANG CHỦ': '/',
+        'MACBOOK': '/macbook',
+        'MACBOOK99': '/macbook99',
+        'IPHONE': '/iphone',
+        'IPAD': '/ipad',
+        'IMAC': '/imac',
+        'SURFACE': '/surface',
+        'PHỤ KIỆN': '/phu-kien',
+        'BẢO HÀNH': '/warrantyPolicy',
+        'LIÊN HỆ': '/lien-he',
+        'VẬN CHUYỂN': '/deliveryPolicy',
+    };
+
     const handleItemClick = (item) => {
         setActiveItem(item);
         setIsMenuOpen(false);
+
+        // Navigate to the corresponding route
+        const route = routeMap[item];
+        if (route) {
+            navigate(route);
+        }
     };
 
     return (
         <header className="bg-white shadow-md py-4 px-24">
             <div className=" container mx-auto flex justify-between items-center px-4 lg:px-0">
                 {/* Logo */}
-                <div className="cursor-pointer flex items-center"
-                    onClick={() => navigate("/")}>
-                    <img
-                        src={logo}
-                        alt="Macbook Saigon"
-                        className="h-14 w-auto object-contain"
-                    />
+                <div className="cursor-pointer flex items-center" onClick={() => navigate("/")}>
+                    <img src={logo} alt="Macbook Saigon" className="h-14 w-auto object-contain" />
                 </div>
 
                 {/* Search Bar */}
@@ -48,17 +64,15 @@ const Header = () => {
                         placeholder="Tìm kiếm sản phẩm..."
                         className="w-full pl-4 pr-10 py-2 border border-gray-300 bg-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500"
                     />
-                    <img
-                        src={seach}
-                        alt="Search Icon"
-                        className="absolute right-4 top-2.5 w-6 h-6"
-                    />
+                    <img src={seach} alt="Search Icon" className="absolute right-4 top-2.5 w-6 h-6" />
                 </div>
 
-                {/* Contact Info - chỉ hiện trên màn hình lớn */}
+                {/* Contact Info - only visible on large screens */}
                 <div className="hidden lg:flex items-center space-x-8">
-                    <div className="flex items-center space-x-2 cursor-pointer hover:text-orange-500 transition duration-300"
-                        onClick={() => navigate("/branch")}>
+                    <div
+                        className="flex items-center space-x-2 cursor-pointer hover:text-orange-500 transition duration-300"
+                        onClick={() => navigate("/branch")}
+                    >
                         <img src={dc} alt="Địa chỉ" className="h-6" />
                         <div>
                             <p className="text-sm font-semibold">Hệ Thống Chi Nhánh</p>
@@ -79,13 +93,13 @@ const Header = () => {
                             <img src={use} alt="User" className="h-10" />
                         </div>
 
-                        {/* Dropdown Đăng Nhập và Đăng Kí */}
+                        {/* Dropdown for Login and Register */}
                         {isDropdownOpenAuth && (
                             <div className="absolute top-6 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                                 <div className="flex flex-col">
                                     <button
                                         onClick={() => {
-                                            navigate('/login')
+                                            navigate('/login');
                                             setIsDropdownOpenAuth(false);
                                         }}
                                         className="flex items-center px-4 py-3 hover:bg-gray-100"
@@ -95,7 +109,7 @@ const Header = () => {
                                     </button>
                                     <button
                                         onClick={() => {
-                                            navigate('/register')
+                                            navigate('/register');
                                             setIsDropdownOpenAuth(false);
                                         }}
                                         className="flex items-center px-4 py-3 hover:bg-gray-100"
@@ -154,7 +168,7 @@ const Header = () => {
             {/* Navigation Bar */}
             <nav className={`${isMenuOpen ? 'block' : 'hidden'} lg:flex mt-4 bg-white lg:mt-3`}>
                 <div className="container mx-auto flex flex-col lg:flex-row lg:justify-center space-y-2 lg:space-y-0 lg:space-x-3 py-1">
-                    {['TRANG CHỦ', 'MACBOOK', 'MACBOOK99', 'IPHONE', 'IPAD', 'IMAC', 'SURFACE', 'PHỤ KIỆN', 'BẢO HÀNH', 'LIÊN HỆ', 'VẬN CHUYỂN'].map((item, index) => (
+                    {Object.keys(routeMap).map((item, index) => (
                         <a
                             key={index}
                             href="#"
