@@ -12,7 +12,10 @@ function App() {
         <>
             <Header />
             {location.pathname !== '/register' && location.pathname !== '/login'
-                && location.pathname !== '/branch' && location.pathname !== '/detailProduct' && <BannerSlider />}
+                && location.pathname !== '/branch' && location.pathname !== '/detailProduct'
+                && location.pathname !== '/deliveryPolicy' && location.pathname !== '/warrantyPolicy'
+                && location.pathname !== '/installmentPolicy'
+                && <BannerSlider />}
             <Outlet />
             <TinTuc/>
             <Footer />
