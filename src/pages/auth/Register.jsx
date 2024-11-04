@@ -14,6 +14,7 @@ const RegisterPage = () => {
 
     const handleRegister = async (e) => {
         e.preventDefault();
+
         const passwordPattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/;
         if (!passwordPattern.test(password)) {
             setError("Mật khẩu phải có ít nhất 6 ký tự, bao gồm chữ in hoa, số và ký tự đặc biệt");
@@ -48,7 +49,7 @@ const RegisterPage = () => {
                 </h2>
 
                 {/* Form Đăng Kí */}
-                <form>
+                <form onSubmit={handleRegister}>
                     <div className="space-y-4">
                         {/* Trường Họ */}
                         <input

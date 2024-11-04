@@ -31,6 +31,7 @@ const LoginPage = () => {
                         name: res?.user?.name ?? "",
                     }
                 })
+                console.log("Login successfully", res);
                 navigate("/", {replace: true});
             } else{
                 setError(res.EM);
@@ -44,15 +45,15 @@ const LoginPage = () => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-50">
             <div className="flex bg-white shadow-lg rounded-lg overflow-hidden">
-                <div className="hidden md:flex md:w-1/2 bg-blue-100 items-center justify-center">
+                <div className="hidden md:flex md:w-1/2 bg-blue-100 items-center justify-center p-16">
                     <img
                         src={imageLogin}
                         alt="Illustration"
-                        className="w-4/5"
+                        className="object-cover "
                     />
                 </div>
                 {/* Phần form đăng nhập bên phải */}
-                <div className="w-full md:w-1/2 p-8">
+                <div className="w-full md:w-1/2 p-16">
                     <h2 className="text-2xl font-bold text-center mb-4">Đăng Nhập</h2>
                     <form className="space-y-4"
                         onSubmit={handleLogin}>

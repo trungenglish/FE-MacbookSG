@@ -10,6 +10,8 @@ import DetailProduct from "../pages/DetailProduct.jsx";
 import WarrantyPolicy from "../pages/WarrantyPolicy.jsx";
 import DeliveryPage from "../pages/Delivery.jsx";
 import InstallmentPolicyPage from "../pages/installmentPolicy.jsx";
+import ProductList from "../components/Product/ProductList.jsx";
+import Product from "../pages/Product.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -52,6 +54,10 @@ export const router = createBrowserRouter([
             {
                 path: "installmentPolicy",
                 element: <InstallmentPolicyPage />,
+            },
+            {
+                path: "productList",
+                element: <Product />,
             }
         ]
     },
