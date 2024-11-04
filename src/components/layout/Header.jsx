@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import logo from '../../assets/logo.jpg';
 import dc from '../../assets/dc.jpg';
@@ -8,12 +8,16 @@ import giohang from '../../assets/giohang.jpg';
 import seach from '../../assets/seach.jpg';
 import dangnhap from '../../assets/dangnhap.jpg';
 import dangki from '../../assets/dangki.jpg';
+import {AuthContext} from "../context/AuthContext.jsx";
 
 const Header = () => {
+    const {user,setUser} = useContext(AuthContext);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [activeItem, setActiveItem] = useState('TRANG CHỦ');
     const [isDropdownOpenAuth, setIsDropdownOpenAuth] = useState(false);
     const navigate = useNavigate();
+
+    console.log("check",user);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -48,6 +52,14 @@ const Header = () => {
             navigate(route);
         }
     };
+
+    const handleLogout = () => {
+        setUser({
+            isAuthenticated: false,
+            name: '',
+            email: '',
+        });
+    }
 
     return (
         <header className="bg-white shadow-md py-4 px-24">
@@ -89,35 +101,51 @@ const Header = () => {
                     </div>
 
                     <div className="flex items-center space-x-4 relative">
-                        <div className="cursor-pointer hover:text-orange-500 transition duration-300" onClick={toggleDropdownAuth}>
-                            <img src={use} alt="User" className="h-10" />
-                        </div>
-
+                        {user.isAuthenticated ? (
+                            <div className="relative group flex items-center space-x-2 cursor-pointer bg-gray-50 p-2 rounded-md shadow hover:bg-gray-100 transition duration-300"
+                                 onClick={toggleDropdownAuth} >
+                                <span className="text-sm font-semibold text-gray-700 truncate w-32">Xin chào, {user.user.name}</span>
+                            </div>
+                        ) : (
+                            <div className="cursor-pointer hover:text-orange-500 transition duration-300"
+                                onClick={toggleDropdownAuth}>
+                                <img src={use} alt="User" className="h-10"/>
+                            </div>
+                        )}
                         {/* Dropdown for Login and Register */}
                         {isDropdownOpenAuth && (
-                            <div className="absolute top-6 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                                <div className="flex flex-col">
+                            <div className="absolute top-10 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                                {user.isAuthenticated ? (
                                     <button
-                                        onClick={() => {
-                                            navigate('/login');
-                                            setIsDropdownOpenAuth(false);
-                                        }}
-                                        className="flex items-center px-4 py-3 hover:bg-gray-100"
+                                        onClick={handleLogout}
+                                        className="w-full px-4 py-3 text-left hover:bg-gray-100"
                                     >
-                                        <img src={dangnhap} alt="Đăng Nhập Icon" className="h-6 w-6 mr-2" />
-                                        Đăng Nhập
+                                        Đăng Xuất
                                     </button>
-                                    <button
-                                        onClick={() => {
-                                            navigate('/register');
-                                            setIsDropdownOpenAuth(false);
-                                        }}
-                                        className="flex items-center px-4 py-3 hover:bg-gray-100"
-                                    >
-                                        <img src={dangki} alt="Đăng Kí Icon" className="h-6 w-6 mr-2" />
-                                        Đăng Kí
-                                    </button>
-                                </div>
+                                ) : (
+                                    <div className="flex flex-col">
+                                        <button
+                                            onClick={() => {
+                                                navigate('/login');
+                                                setIsDropdownOpenAuth(false);
+                                            }}
+                                            className="flex items-center px-4 py-3 hover:bg-gray-100"
+                                        >
+                                            <img src={dangnhap} alt="Đăng Nhập Icon" className="h-6 w-6 mr-2" />
+                                            Đăng Nhập
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                navigate('/register');
+                                                setIsDropdownOpenAuth(false);
+                                            }}
+                                            className="flex items-center px-4 py-3 hover:bg-gray-100"
+                                        >
+                                            <img src={dangki} alt="Đăng Kí Icon" className="h-6 w-6 mr-2" />
+                                            Đăng Kí
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         )}
 
