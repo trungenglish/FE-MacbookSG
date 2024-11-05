@@ -56,7 +56,7 @@ export const router = createBrowserRouter([
                 element: <InstallmentPolicyPage />,
             },
             {
-                path: "productList",
+                path: "productList/:categoryId",
                 element: <Product />,
             }
         ]
