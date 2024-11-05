@@ -2,7 +2,7 @@ import React from "react";
 
 const ProductCard = ({ product }) => {
     // Tính giá hiện tại sau khi giảm
-    const currentPrice = product.oldPrice - (product.oldPrice * product.discount / 100);
+    // const currentPrice = product.oldPrice - (product.oldPrice * product.discount / 100);
 
     return (
         <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 relative">
@@ -14,7 +14,7 @@ const ProductCard = ({ product }) => {
 
             {/* Hình ảnh sản phẩm */}
             <img
-                src={product.image}
+                src={product.imgUrls}
                 alt={product.name}
                 className="w-full h-48 object-contain mt-8"  // Khoảng cách giữa hình ảnh và phần trên
             />
@@ -27,12 +27,12 @@ const ProductCard = ({ product }) => {
                 {/* Giá cũ, giá mới và khung giảm giá */}
                 <div>
                     <div className="flex items-center space-x-2">
-                        <p className="text-sm text-gray-500 line-through">{product.oldPrice.toLocaleString('vi-VN')}₫</p>  {/* Giá cũ */}
+                        <p className="text-sm text-gray-500 line-through">{product.price.toLocaleString('vi-VN')}₫</p>  {/* Giá cũ */}
                         <div className="bg-yellow-400 text-black text-xs font-bold py-1 px-2 rounded">
                             -{product.discount}%
                         </div>
                     </div>
-                    <p className="text-red-500 font-bold text-lg mt-1">{currentPrice.toLocaleString('vi-VN')}₫</p>  {/* Giá hiện tại */}
+                    <p className="text-red-500 font-bold text-lg mt-1">{product.priceAfterDiscount.toLocaleString('vi-VN')}₫</p>  {/* Giá hiện tại */}
 
                     {/* Đánh giá 5 ngôi sao vàng đẹp hơn */}
                     <div className="flex items-center mt-2">

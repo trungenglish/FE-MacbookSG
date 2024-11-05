@@ -1,5 +1,7 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import ProductCard from "./ProductCard";
+import {useParams} from "react-router-dom";
+import {getProductByCategory} from "../../service/api/productApi.js";
 
 const products = [
     { id: 1, name: "iPhone 15 Pro Max 256GB", condition: "NEW-100%", oldPrice: 30000000, discount: 10, image: "https://product.hstatic.net/1000063620/product/ip-15-pro-max-mhm-xanh_8dc67ad091eb477099276543f9e6fb19.jpg" },
@@ -18,11 +20,29 @@ const products = [
 
 ];
 
-function ProductList() {
+const ProductList = () => {
+    const { categoryId} = useParams();
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const res = await getProductByCategory(categoryId);
+            console.log("check", res);
+            if (res && res.EC === 0) {
+                setProducts(res.data);
+            }else {
+                setProducts([]);
+            }
+        };
+        fetchProducts();
+    }, []);
+
+    console.log("products", products);
+
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product._id} product={product} />
             ))}
         </div>
     );
