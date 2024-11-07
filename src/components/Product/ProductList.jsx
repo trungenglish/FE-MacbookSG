@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import ProductCard from "./ProductCard";
 import {useParams} from "react-router-dom";
 import {getProductByCategory} from "../../service/api/productApi.js";
+import {Spin} from "antd";
 
 const products = [
     { id: 1, name: "iPhone 15 Pro Max 256GB", condition: "NEW-100%", oldPrice: 30000000, discount: 10, image: "https://product.hstatic.net/1000063620/product/ip-15-pro-max-mhm-xanh_8dc67ad091eb477099276543f9e6fb19.jpg" },
@@ -23,28 +24,41 @@ const products = [
 const ProductList = () => {
     const { categoryId} = useParams();
     const [products, setProducts] = useState([]);
+    const [appLoading, setAppLoading] = useState(false);
 
     useEffect(() => {
         const fetchProducts = async () => {
+            setAppLoading(true);
             const res = await getProductByCategory(categoryId);
-            console.log("check", res);
             if (res && res.EC === 0) {
                 setProducts(res.data);
             }else {
                 setProducts([]);
             }
+            setAppLoading(false)
         };
         fetchProducts();
-    }, []);
-
-    console.log("products", products);
+    }, [categoryId]);
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product) => (
-                <ProductCard key={product._id} product={product} />
-            ))}
-        </div>
+        <>
+            {appLoading === true ?
+                <div style={{
+                    position: "fixed",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)"
+                }}>
+                    <Spin/>
+                </div>
+                :
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {products.map((product) => (
+                        <ProductCard key={product._id} product={product}/>
+                    ))}
+                </div>
+            }
+        </>
     );
 }
 

@@ -12,6 +12,7 @@ import DeliveryPage from "../pages/Delivery.jsx";
 import InstallmentPolicyPage from "../pages/installmentPolicy.jsx";
 import ProductList from "../components/Product/ProductList.jsx";
 import Product from "../pages/Product.jsx";
+import CartPage from "../pages/Cart.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -58,6 +59,10 @@ export const router = createBrowserRouter([
             {
                 path: "productList/:categoryId",
                 element: <Product />,
+            },
+            {
+                path: "cart",
+                element: <CartPage />,
             }
         ]
     },

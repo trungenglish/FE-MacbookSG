@@ -1,8 +1,25 @@
-import React from "react";
+import React, {useContext} from "react";
+import {CartContext} from "../context/CartContext.jsx";
+import {notification} from "antd";
 
 const ProductCard = ({ product }) => {
+    const {dispatch} = useContext(CartContext);
     // Tính giá hiện tại sau khi giảm
     // const currentPrice = product.oldPrice - (product.oldPrice * product.discount / 100);
+
+    const handleAddToCart = () => {
+        notification.success({
+            message: "Thêm vào giỏ hàng thành công",
+            description: `${product.name} đã được thêm vào giỏ hàng`,
+            placement: "topRight",
+            duration: 2,
+        });
+        dispatch({
+            type: "ADD_TO_CART",
+            payload: product,
+        });
+    };
+
 
     return (
         <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 relative">
@@ -58,7 +75,10 @@ const ProductCard = ({ product }) => {
                     <span className="text-blue-500">1,000,000VND</span>
                 </div>
                 {/* Nút giỏ hàng */}
-                <button className="bg-gray-100 hover:bg-gray-300 text-gray-700 font-semibold p-4 rounded-full transform transition-transform duration-200 hover:scale-110">
+                <button
+                    onClick={handleAddToCart}
+                    className="bg-gray-100 hover:bg-gray-300 text-gray-700 font-semibold p-4 rounded-full
+                        transform transition-transform duration-200 hover:scale-110">
                     <img
                         src="https://bizweb.dktcdn.net/100/344/969/themes/705911/assets/carts.svg?1719463671033"
                         alt="Cart"

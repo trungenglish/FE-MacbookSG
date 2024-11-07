@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useState } from 'react';
+import { useNavigate, NavLink, useLocation } from "react-router-dom";  // Thêm useLocation vào đây
 import logo from '../../assets/logo.jpg';
 import dc from '../../assets/dc.jpg';
 import sdt from '../../assets/sdt.jpg';
@@ -8,16 +8,18 @@ import giohang from '../../assets/giohang.jpg';
 import seach from '../../assets/seach.jpg';
 import dangnhap from '../../assets/dangnhap.jpg';
 import dangki from '../../assets/dangki.jpg';
-import {AuthContext} from "../context/AuthContext.jsx";
+import { AuthContext } from "../context/AuthContext.jsx";
+import { CartContext } from "../context/CartContext.jsx";
 
 const Header = () => {
-    const {user,setUser} = useContext(AuthContext);
+    const { cart } = useContext(CartContext);
+    const { user, setUser } = useContext(AuthContext);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [activeItem, setActiveItem] = useState('TRANG CHỦ');
     const [isDropdownOpenAuth, setIsDropdownOpenAuth] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
 
-    console.log("check",user);
+    const totalItems = cart.reduce((sum, item) => sum + item.quantityCart, 0);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -27,9 +29,17 @@ const Header = () => {
         setIsDropdownOpenAuth((prev) => !prev);
     };
 
+    const handleLogout = () => {
+        setUser({
+            isAuthenticated: false,
+            name: '',
+            email: '',
+        });
+    };
+
     // Mapping menu items to routes
     const routeMap = {
-        'TRANG CHỦ': '/',
+        'TRANG CHỦ': '/homepage',
         'MACBOOK': '/productList/670ff2c12938a36073a9d9c3',
         'MACBOOK99': '/productList/6729730be84df12ca0e8b77e',
         'IPHONE': '/productList/67297313e84df12ca0e8b782',
@@ -42,27 +52,8 @@ const Header = () => {
         'VẬN CHUYỂN': '/deliveryPolicy',
     };
 
-    const handleItemClick = (item) => {
-        setActiveItem(item);
-        setIsMenuOpen(false);
-
-        // Navigate to the corresponding route
-        const route = routeMap[item];
-        if (route) {
-            navigate(route);
-        }
-    };
-
-    const handleLogout = () => {
-        setUser({
-            isAuthenticated: false,
-            name: '',
-            email: '',
-        });
-    }
-
     return (
-        <header className="bg-white shadow-md py-4 px-24">
+        <header className="bg-white shadow-md py-4 px-24 sticky top-0 z-50">
             <div className=" container mx-auto flex justify-between items-center px-4 lg:px-0">
                 {/* Logo */}
                 <div className="cursor-pointer flex items-center" onClick={() => navigate("/")}>
@@ -108,7 +99,7 @@ const Header = () => {
                             </div>
                         ) : (
                             <div className="cursor-pointer hover:text-orange-500 transition duration-300"
-                                onClick={toggleDropdownAuth}>
+                                 onClick={toggleDropdownAuth}>
                                 <img src={use} alt="User" className="h-10"/>
                             </div>
                         )}
@@ -149,47 +140,17 @@ const Header = () => {
                             </div>
                         )}
 
-                        <div className="cursor-pointer hover:text-orange-500 transition duration-300">
+                        <div
+                            onClick={() => navigate('/cart')}
+                            className="cursor-pointer hover:text-orange-500 transition duration-300">
                             <img src={giohang} alt="Cart" className="h-8" />
+                            {totalItems > 0 && (
+                                <div className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                                    {totalItems}
+                                </div>
+                            )}
                         </div>
                     </div>
-                </div>
-
-                {/* Hamburger Menu Icon (For Mobile) */}
-                <div className="lg:hidden flex items-center">
-                    <button onClick={toggleMenu} className="text-gray-600 focus:outline-none">
-                        {isMenuOpen ? (
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-8 w-8"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </svg>
-                        ) : (
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-8 w-8"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M4 6h16M4 12h16m-7 6h7"
-                                />
-                            </svg>
-                        )}
-                    </button>
                 </div>
             </div>
 
@@ -197,14 +158,17 @@ const Header = () => {
             <nav className={`${isMenuOpen ? 'block' : 'hidden'} lg:flex mt-4 bg-white lg:mt-3`}>
                 <div className="container mx-auto flex flex-col lg:flex-row lg:justify-center space-y-2 lg:space-y-0 lg:space-x-3 py-1">
                     {Object.keys(routeMap).map((item, index) => (
-                        <a
+                        <NavLink
                             key={index}
-                            href="#"
-                            onClick={() => handleItemClick(item)}
-                            className={`text-sm lg:text-base font-semibold relative transition-all duration-300 ease-in-out ${activeItem === item ? 'bg-orange-500 text-white px-4 py-2 rounded' : 'text-gray-700 hover:bg-orange-500 hover:text-white px-4 py-2 rounded'}`}
+                            to={routeMap[item]}
+                            className={({ isActive }) => {
+                                const isCurrentRoute = location.pathname === routeMap[item];
+                                return `text-sm lg:text-base font-semibold relative transition-all duration-300 ease-in-out 
+                                    ${isCurrentRoute ? 'bg-orange-500 text-white px-4 py-2 rounded' : 'text-gray-700 hover:bg-orange-500 hover:text-white px-4 py-2 rounded'}`;
+                            }}
                         >
                             {item}
-                        </a>
+                        </NavLink>
                     ))}
                 </div>
             </nav>

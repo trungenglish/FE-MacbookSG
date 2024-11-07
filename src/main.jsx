@@ -6,11 +6,14 @@ import {
 } from "react-router-dom"
 import {router} from "./routes/router.jsx"
 import {AuthWrapper} from "./components/context/AuthContext.jsx";
+import {CartProvider} from "./components/context/CartContext.jsx";
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+
       <AuthWrapper>
-          <RouterProvider router={router}/>
+          <CartProvider>
+              <RouterProvider router={router}/>
+          </CartProvider>
       </AuthWrapper>
-  </StrictMode>,
+
 )
