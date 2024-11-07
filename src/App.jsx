@@ -14,8 +14,8 @@ function App() {
             {location.pathname !== '/register' && location.pathname !== '/login'
                 && location.pathname !== '/branch' && location.pathname !== '/detailProduct'
                 && location.pathname !== '/deliveryPolicy' && location.pathname !== '/warrantyPolicy'
-                && location.pathname !== '/installmentPolicy'
-                && <BannerSlider />}
+                && location.pathname !== '/cart' && location.pathname !== '/installmentPolicy'
+                && <BannerSlider /> }
             <Outlet />
             <TinTuc/>
             <Footer />

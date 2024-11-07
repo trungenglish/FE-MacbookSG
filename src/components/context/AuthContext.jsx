@@ -18,7 +18,8 @@ export const AuthWrapper = (props) => {
             name: '',
             phone: '',
             city: '',
-        }
+        },
+        appLoading: true,
     });
 
     return (
@@ -27,5 +28,3 @@ export const AuthWrapper = (props) => {
         </AuthContext.Provider>
     )
 }
-
-
