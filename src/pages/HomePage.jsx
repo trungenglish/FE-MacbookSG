@@ -2,7 +2,7 @@ import React from 'react';
 import DichVu from "../components/HomePage/Dichvu/DichVu.jsx";
 import Hotsale from "../components/HomePage/Hotsale/HotSale.jsx";
 import DanhMucNB from "../components/HomePage/Danhmucnb/DanhMucNB.jsx";
-import Product from "../components/HomePage/Product/Product.jsx";
+import ProductGrid from "../components/HomePage/Product/ProductGrid.jsx";
 
 const HomePage = () => {
     return (
@@ -11,7 +11,7 @@ const HomePage = () => {
             <Hotsale />
             <DanhMucNB />
             <section className="content py-10">
-                <Product/>
+                <ProductGrid/>
             </section>
         </>
     );

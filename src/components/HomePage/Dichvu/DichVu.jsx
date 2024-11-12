@@ -2,8 +2,11 @@ import React from 'react';
 import icondv from '../../../assets/icondv.jpg';
 import icondv1 from '../../../assets/icondv1.jpg';
 import icondv2 from '../../../assets/icondv2.jpg';
+import {useNavigate} from "react-router-dom";
 
 const DichVu = () => {
+  const navigate = useNavigate();
+
   return (
       <div className="container mx-auto py-10 px-24">
         {/* Responsive Container */}
@@ -23,14 +26,16 @@ const DichVu = () => {
           </div>
 
           {/* Nút Hỗ Trợ Trả Góp */}
-          <div className="bg-yellow-200 hover:bg-yellow-300 transition duration-300 rounded-lg flex items-center p-6
+          <div
+              onClick={() => navigate('/installmentPolicy')}
+              className="cursor-pointer bg-yellow-200 hover:bg-yellow-300 transition duration-300 rounded-lg flex items-center p-6
           shadow-lg transform hover:scale-105">
             <img
                 src={icondv1}
                 alt="Hỗ Trợ Trả Góp"
                 className="h-14 w-14"
             />
-            <div className="ml-4">
+            <div className="ml-4 ">
               <p className="font-bold text-lg lg:text-xl">HỖ TRỢ TRẢ GÓP</p>
               <p className="text-sm text-gray-600 lg:text-base">Home Credit, Mcredit, HD Saison</p>
             </div>

@@ -3,9 +3,8 @@ import { Button, Result } from 'antd';
 import {useNavigate, useRouteError} from "react-router-dom";
 import {AuthContext} from "../../components/context/AuthContext.jsx";
 
-export const PrivateRoute = (props) => {
+export const ProtectedRoute = (props) => {
     const {user} = useContext(AuthContext);
-    const error = useRouteError();
     const navigate = useNavigate();
 
     if (user.isAuthenticated) {
@@ -29,4 +28,4 @@ export const PrivateRoute = (props) => {
     }
 }
 
-export default PrivateRoute;
+export default ProtectedRoute;
