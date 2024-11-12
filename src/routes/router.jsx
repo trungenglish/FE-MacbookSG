@@ -13,6 +13,7 @@ import InstallmentPolicyPage from "../pages/installmentPolicy.jsx";
 import ProductList from "../components/Product/ProductList.jsx";
 import Product from "../pages/Product.jsx";
 import CartPage from "../pages/Cart.jsx";
+import ProtectedRoute from "../pages/SystemPage/ProtectedRoute.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -41,7 +42,7 @@ export const router = createBrowserRouter([
                 element: <BranchInfo/>
             },
             {
-                path: "detailProduct",
+                path: "detailProduct/:productId",
                 element: <DetailProduct />,
             },
             {
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
             {
                 path: "cart",
                 element: <CartPage />,
+            },
+            {
+                path: "checkout",
+                element: <ProtectedRoute></ProtectedRoute>,
             }
         ]
     },

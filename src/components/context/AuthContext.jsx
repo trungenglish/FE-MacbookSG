@@ -1,4 +1,4 @@
-import {createContext, useState} from "react";
+import {createContext, useEffect, useState} from "react";
 
 export const AuthContext = createContext({
     isAuthenticated: false,
@@ -21,6 +21,17 @@ export const AuthWrapper = (props) => {
         },
         appLoading: true,
     });
+
+    useEffect(() => {
+        const savedUser = JSON.parse(localStorage.getItem("user"));
+        if (savedUser && savedUser.isAuthenticated) {
+            setUser(savedUser);
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("user", JSON.stringify(user));
+    }, [user]);
 
     return (
         <AuthContext.Provider value={{user, setUser}}>

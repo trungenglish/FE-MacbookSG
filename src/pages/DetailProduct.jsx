@@ -1,10 +1,14 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import iphone16 from "../assets/iphone16.jpg";
 import gioHang from "../assets/giohang.jpg";
 import arrowLeft from "../assets/arrow-left-50.png";
 import arrowRight from "../assets/arrow-right-50.png";
+import {useParams} from "react-router-dom";
+import {getProductById} from "../service/api/productApi.js";
 
 const DetailProduct = () => {
+    const { productId } = useParams();
+    const [product, setProduct] = useState(null);
     const [selectedStorage, setSelectedStorage] = useState('256GB');
     const [selectedColor, setSelectedColor] = useState('Titan xanh');
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -38,6 +42,15 @@ const DetailProduct = () => {
     const handleThumbnailClick = (index) => {
         setCurrentImageIndex(index);
     };
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            const res = await getProductById(productId);
+            console.log("res", res);
+            setProduct(res.data);
+        }
+        fetchProduct();
+    }, [productId]);
 
     return (
         <>

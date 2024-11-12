@@ -1,11 +1,11 @@
 import React, {useContext} from "react";
 import {CartContext} from "../context/CartContext.jsx";
 import {notification} from "antd";
+import {useNavigate} from "react-router-dom";
 
 const ProductCard = ({ product }) => {
+    const navigate = useNavigate();
     const {dispatch} = useContext(CartContext);
-    // Tính giá hiện tại sau khi giảm
-    // const currentPrice = product.oldPrice - (product.oldPrice * product.discount / 100);
 
     const handleAddToCart = () => {
         notification.success({
@@ -20,9 +20,10 @@ const ProductCard = ({ product }) => {
         });
     };
 
-
     return (
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 relative">
+        <div
+            onClick={() => navigate(`/detailProduct/${product._id}`)}
+            className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 relative">
 
             {/* Khung tròn màu đỏ chứa nội dung "Trả góp 0%" */}
             <div className="absolute top-2 left-2 bg-red-500 text-white font-bold text-xs py-1 px-2 rounded">
