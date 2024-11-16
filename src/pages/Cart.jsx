@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
 import { BsBagX } from "react-icons/bs";
 import { CartContext } from "../components/context/CartContext.jsx";
+import {useNavigate} from "react-router-dom";
 
 const CartPage = () => {
+    const navigate = useNavigate();
     const { cart, dispatch } = useContext(CartContext);
     const [isTooltipVisible, setTooltipVisible] = useState(false);
 
@@ -47,7 +49,7 @@ const CartPage = () => {
                             <h3 className="text-lg md:text-xl font-semibold">{item.idPro.name} - {item.storage} - {item.color}</h3>
                             <div className="flex items-center mt-2 space-x-2">
                                 <span className="px-2 py-1 md:px-3 md:py-1 bg-orange-400 text-white rounded text-xs">
-                                    Màu Silver
+                                    {item.color}
                                 </span>
                                 <span
                                     className="px-2 py-1 md:px-3 md:py-1 bg-orange-400 text-white rounded text-xs relative"
@@ -125,6 +127,7 @@ const CartPage = () => {
                 </button>
                 <button
                     className="px-4 py-2 md:px-6 md:py-3 bg-orange-500 text-white font-semibold rounded hover:bg-orange-600"
+                    onClick={() => navigate("/checkout")}
                 >
                     THANH TOÁN
                 </button>

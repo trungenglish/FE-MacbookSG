@@ -19,7 +19,8 @@ function App() {
                     location.pathname.startsWith('/warrantyPolicy') ||
                     location.pathname.startsWith('/cart') ||
                     location.pathname.startsWith('/installmentPolicy') ||
-                    location.pathname.startsWith('/news')) &&
+                    location.pathname.startsWith('/news')) ||
+                    location.pathname.startsWith('/checkout') &&
                 <BannerSlider />
             }
             <Outlet />

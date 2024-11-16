@@ -16,6 +16,8 @@ import CartPage from "../pages/Cart.jsx";
 import ProtectedRoute from "../pages/SystemPage/ProtectedRoute.jsx";
 import News from "../pages/News.jsx";
 import NewsDetail from "../components/TinTuc/NewsDetail.jsx";
+import TechnicalSpecs from "../components/Product/TechnicalSpecs.jsx";
+import Checkout from "../pages/Checkout.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -77,8 +79,12 @@ export const router = createBrowserRouter([
             },
             {
                 path: "checkout",
-                element: <ProtectedRoute></ProtectedRoute>,
+                element: <Checkout />,
             }
+            // {
+            //     path: "checkout",
+            //     element: <ProtectedRoute></ProtectedRoute>,
+            // }
         ]
     },
 ]);
