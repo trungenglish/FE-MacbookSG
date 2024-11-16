@@ -30,6 +30,7 @@ const ProductList = () => {
         const fetchProducts = async () => {
             setAppLoading(true);
             const res = await getProductByCategory(categoryId);
+            console.log("check",res);
             if (res && res.EC === 0) {
                 setProducts(res.data);
             }else {

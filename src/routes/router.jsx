@@ -14,6 +14,8 @@ import ProductList from "../components/Product/ProductList.jsx";
 import Product from "../pages/Product.jsx";
 import CartPage from "../pages/Cart.jsx";
 import ProtectedRoute from "../pages/SystemPage/ProtectedRoute.jsx";
+import News from "../pages/News.jsx";
+import NewsDetail from "../components/TinTuc/NewsDetail.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -56,6 +58,14 @@ export const router = createBrowserRouter([
             {
                 path: "installmentPolicy",
                 element: <InstallmentPolicyPage />,
+            },
+            {
+              path: "news",
+              element: <News/>
+            },
+            {
+                path: "/news/:id",
+                element: <NewsDetail/>
             },
             {
                 path: "productList/:categoryId",
