@@ -1,7 +1,6 @@
 import {FaFilter} from "react-icons/fa";
-import React from "react";
 
-const Filter = ({ filter, setFilter }) => {
+const Filter = ({filterProductsIncrease, filterProductsDecrease}) => {
 
     return (
         <div className="my-4 p-4 bg-white shadow-md rounded-lg flex justify-between items-center">
@@ -13,13 +12,16 @@ const Filter = ({ filter, setFilter }) => {
             </div>
 
             <div className="flex space-x-4">
-                <button className="bg-gray-200 p-2 rounded-md hover:bg-black hover:text-white">
+                <button className="bg-gray-200 p-2 rounded-md hover:bg-black hover:text-white"
+                    >
                     Mặc định
                 </button>
-                <button className="bg-gray-200 p-2 rounded-md hover:bg-black hover:text-white">
+                <button className="bg-gray-200 p-2 rounded-md hover:bg-black hover:text-white"
+                        onClick={filterProductsIncrease}>
                     Từ Giá thấp đến cao
                 </button>
-                <button className="bg-gray-200 p-2 rounded-md hover:bg-black hover:text-white">
+                <button className="bg-gray-200 p-2 rounded-md hover:bg-black hover:text-white"
+                        onClick={filterProductsDecrease}>
                     Từ Giá cao đến thấp
                 </button>
             </div>

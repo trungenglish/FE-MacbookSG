@@ -38,13 +38,13 @@ const CartPage = () => {
                 cart.map((item) => (
                     <div key={item._id} className="flex flex-col md:flex-row items-start border-b pb-4 mb-4 overflow-y-auto">
                         <img
-                            src={item.imgUrls?.[0]}
-                            alt={item.name || "Product Image"}
+                            src={item.idPro.images?.[0]}
+                            alt={item.idPro.name || "Product Image"}
                             className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-lg mb-4 md:mb-0"
                         />
 
                         <div className="md:ml-6 flex-1">
-                            <h3 className="text-lg md:text-xl font-semibold">{item.name}</h3>
+                            <h3 className="text-lg md:text-xl font-semibold">{item.idPro.name} - {item.storage} - {item.color}</h3>
                             <div className="flex items-center mt-2 space-x-2">
                                 <span className="px-2 py-1 md:px-3 md:py-1 bg-orange-400 text-white rounded text-xs">
                                     Màu Silver
@@ -126,7 +126,7 @@ const CartPage = () => {
                 <button
                     className="px-4 py-2 md:px-6 md:py-3 bg-orange-500 text-white font-semibold rounded hover:bg-orange-600"
                 >
-                    MUA NGAY
+                    THANH TOÁN
                 </button>
             </div>
         </div>
