@@ -5,6 +5,7 @@ import arrowLeft from "../assets/arrow-left-50.png";
 import arrowRight from "../assets/arrow-right-50.png";
 import {useParams} from "react-router-dom";
 import {getProductById} from "../service/api/productApi.js";
+import TechnicalSpecs from "../components/Product/TechnicalSpecs.jsx";
 
 const DetailProduct = () => {
     const { productId } = useParams();
@@ -12,6 +13,7 @@ const DetailProduct = () => {
     const [selectedStorage, setSelectedStorage] = useState('256GB');
     const [selectedColor, setSelectedColor] = useState('Titan xanh');
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [selectedTab, setSelectedTab] = useState("specs");
 
     const images = [iphone16, iphone16, iphone16]; // List of images
 
@@ -149,15 +151,34 @@ const DetailProduct = () => {
 
             <div className="justify-center max-mx-auto mt-4 p-4 bg-white flex flex-col md:flex-row gap-4">
                 <div className="flex gap-2 p-4 space-x-3">
-                    <span className="text-xl p-3 border-2 rounded-lg font-semibold ">Mô tả</span>
-                    <span className="text-xl p-3 border-2 rounded-lg font-semibold ">Thông số kỹ thuật</span>
-                    <span className="text-xl p-3 border-2 rounded-lg font-semibold ">Đánh giá sản phẩm</span>
+                    <span
+                        onClick={() => setSelectedTab("description")}
+                        className={`text-xl p-3 border-2 rounded-lg font-semibold cursor-pointer ${selectedTab === "description" ? "border-red-500 text-red-500" : ""}`}
+                    >
+                        Mô tả
+                    </span>
+                    <span
+                        onClick={() => setSelectedTab("specs")}
+                        className={`text-xl p-3 border-2 rounded-lg font-semibold cursor-pointer ${selectedTab === "specs" ? "border-red-500 text-red-500" : ""}`}
+                    >
+                        Thông số kỹ thuật
+                    </span>
+                    <span
+                        onClick={() => setSelectedTab("reviews")}
+                        className={`text-xl p-3 border-2 rounded-lg font-semibold cursor-pointer ${selectedTab === "reviews" ? "border-red-500 text-red-500" : ""}`}
+                    >
+                        Đánh giá sản phẩm
+                    </span>
                 </div>
             </div>
-            <div className="justify-center max-mx-auto my-4 p-4 bg-white flex flex-col md:flex-row gap-4">
-                <span>Cấu hình & Bộ nhớ</span>
-                <span>Hệ điều hành: IOS 18</span>
+
+            {/* Render content based on selectedTab */}
+            <div className="max-w-7xl mx-auto mt-4 p-4 bg-white">
+                {/*{selectedTab === "description" && <ProductDescription/>}*/}
+                {selectedTab === "specs" && <TechnicalSpecs/>}
+                {/*{selectedTab === "reviews" && <ProductReviews/>}*/}
             </div>
+
         </>
 
     );
