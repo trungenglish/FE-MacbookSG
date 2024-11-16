@@ -10,6 +10,16 @@ const getProductById = async (id) => {
     return axios.get(URL_API);
 }
 
+const filterIncrease = async (categoryId) => {
+    const URL_API = `/api/v1/user/filterIncrease/${categoryId}`;
+    return axios.get(URL_API);
+}
+
+const filterDecrease = async (categoryId) => {
+    const URL_API = `/api/v1/user/filterDecrease/${categoryId}`;
+    return axios.get(URL_API);
+}
+
 export {
-    getProductByCategory, getProductById
+    getProductByCategory, getProductById, filterDecrease, filterIncrease
 }
