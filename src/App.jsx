@@ -11,11 +11,17 @@ function App() {
     return (
         <>
             <Header />
-            {location.pathname !== '/register' && location.pathname !== '/login'
-                && location.pathname !== '/branch' && location.pathname !== '/detailProduct'
-                && location.pathname !== '/deliveryPolicy' && location.pathname !== '/warrantyPolicy'
-                && location.pathname !== '/cart' && location.pathname !== '/installmentPolicy'
-                && <BannerSlider /> }
+            {!(location.pathname.startsWith('/register') ||
+                    location.pathname.startsWith('/login') ||
+                    location.pathname.startsWith('/branch') ||
+                    location.pathname.startsWith('/detailProduct') ||
+                    location.pathname.startsWith('/deliveryPolicy') ||
+                    location.pathname.startsWith('/warrantyPolicy') ||
+                    location.pathname.startsWith('/cart') ||
+                    location.pathname.startsWith('/installmentPolicy') ||
+                    location.pathname.startsWith('/news')) &&
+                <BannerSlider />
+            }
             <Outlet />
             <TinTuc/>
             <Footer />

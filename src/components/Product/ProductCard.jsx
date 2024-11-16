@@ -10,7 +10,7 @@ const ProductCard = ({ product }) => {
     const handleAddToCart = () => {
         notification.success({
             message: "Thêm vào giỏ hàng thành công",
-            description: `${product.name} đã được thêm vào giỏ hàng`,
+            description: `${product.idPro.name} đã được thêm vào giỏ hàng`,
             placement: "topRight",
             duration: 2,
         });
@@ -32,15 +32,15 @@ const ProductCard = ({ product }) => {
 
             {/* Hình ảnh sản phẩm */}
             <img
-                src={product.imgUrls}
+                src={product.idPro.images[0]}
                 alt={product.name}
                 className="w-full h-48 object-contain mt-8"  // Khoảng cách giữa hình ảnh và phần trên
             />
 
             {/* Thông tin sản phẩm dịch xuống phía dưới */}
             <div className="p-4 mt-4">
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">{product.name}</h3>
-                <p className="text-gray-600 mb-2">{product.condition}</p>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">{product.idPro.name}</h3>
+                {/*<p className="text-gray-600 mb-2">{product.condition}</p>*/}
 
                 {/* Giá cũ, giá mới và khung giảm giá */}
                 <div>
