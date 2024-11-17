@@ -22,7 +22,7 @@ const ProductCard = ({ product }) => {
 
     return (
         <div
-            onClick={() => navigate(`/detailProduct/${product._id}`)}
+            onClick={() => navigate(`/detailProduct/${product.idPro._id}`)}
             className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 relative">
 
             {/* Khung tròn màu đỏ chứa nội dung "Trả góp 0%" */}

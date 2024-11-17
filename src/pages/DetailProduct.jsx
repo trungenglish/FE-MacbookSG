@@ -1,119 +1,156 @@
-import {useEffect, useState} from "react";
-import iphone16 from "../assets/iphone16.jpg";
-import gioHang from "../assets/giohang.jpg";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getProductById } from "../service/api/productApi.js";
+import TechnicalSpecs from "../components/Product/TechnicalSpecs.jsx";
 import arrowLeft from "../assets/arrow-left-50.png";
 import arrowRight from "../assets/arrow-right-50.png";
-import {useParams} from "react-router-dom";
-import {getProductById} from "../service/api/productApi.js";
-import TechnicalSpecs from "../components/Product/TechnicalSpecs.jsx";
+import gioHang from "../assets/giohang.jpg";
+import { Spin } from "antd";
 
 const DetailProduct = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
-    const [selectedStorage, setSelectedStorage] = useState('256GB');
-    const [selectedColor, setSelectedColor] = useState('Titan xanh');
+    const [appLoading, setAppLoading] = useState(false);
+    const [selectedStorage, setSelectedStorage] = useState(null);
+    const [selectedColor, setSelectedColor] = useState(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [selectedTab, setSelectedTab] = useState("specs");
-
-    const images = [iphone16, iphone16, iphone16]; // List of images
-
-    const storageOptions = [
-        { label: '256GB', price: '32.000.000 ₫' },
-        { label: '512GB', price: '38.000.000 ₫' },
-        { label: '1TB', price: '45.000.000 ₫' },
-    ];
-
-    const colorOptions = [
-        { label: 'Titan xanh', price: '32.000.000 ₫' },
-        { label: 'Titan đen', price: '31.000.000 ₫' },
-        { label: 'Titan trắng', price: '32.500.000 ₫' },
-        { label: 'Titan tự nhiên', price: '32.500.000 ₫' },
-    ];
-
-    const handleStorageClick = (storage) => setSelectedStorage(storage);
-    const handleColorClick = (color) => setSelectedColor(color);
-
-    const handleNextImage = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    };
-
-    const handlePrevImage = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-    };
-
-    const handleThumbnailClick = (index) => {
-        setCurrentImageIndex(index);
-    };
+    const [groupedVariants, setGroupedVariants] = useState({});
+    const [currentPrice, setCurrentPrice] = useState(null);
 
     useEffect(() => {
         const fetchProduct = async () => {
+            setAppLoading(true);
             const res = await getProductById(productId);
-            console.log("res", res);
             setProduct(res.data);
-        }
+
+            // Group variants by storage
+            const variants = res.data.variants || [];
+            const grouped = variants.reduce((acc, variant) => {
+                const storage = variant.storage;
+                if (!acc[storage]) acc[storage] = [];
+                acc[storage].push(variant);
+                return acc;
+            }, {});
+            setGroupedVariants(grouped);
+
+            // Set default storage, color, and price based on the first available variant
+            const initialStorage = Object.keys(grouped)[0];
+            const initialColor = grouped[initialStorage]?.[0].color;
+            const initialPrice = grouped[initialStorage]?.[0].priceAfterDiscount;
+
+            setSelectedStorage(initialStorage);
+            setSelectedColor(initialColor);
+            setCurrentPrice(initialPrice);
+
+            setAppLoading(false);
+        };
         fetchProduct();
     }, [productId]);
+
+    // Update price when selected storage and color change
+    useEffect(() => {
+        if (selectedStorage && selectedColor) {
+            const variant = groupedVariants[selectedStorage]?.find(variant => variant.color === selectedColor);
+            if (variant) {
+                setCurrentPrice(variant.priceAfterDiscount);
+            }
+        }
+    }, [selectedStorage, selectedColor, groupedVariants]);
+
+    const handleStorageClick = (storage) => {
+        setSelectedStorage(storage);
+        setSelectedColor(groupedVariants[storage]?.[0].color); // Reset to the first color of the selected storage
+    };
+
+    const handleColorClick = (color) => setSelectedColor(color);
+
+    if (appLoading) {
+        return (
+            <div style={{
+                position: "fixed",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)"
+            }}>
+                <Spin />
+            </div>
+        );
+    }
+
+    if (!product) {
+        return <div>Product not found!</div>;
+    }
 
     return (
         <>
             <div className="max-w-7xl mx-auto mt-4 p-4 bg-white flex flex-col md:flex-row gap-4">
-                {/* Left Column - Product Image */}
                 <div className="w-full md:w-1/2 flex flex-col items-center relative">
-                    <img src={images[currentImageIndex]} alt="Product" className="w-full h-full max-w-md mb-4"/>
-
-                    {/* Navigation Arrows */}
-                    <button onClick={handlePrevImage}
-                            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full">
-                        <img src={arrowLeft}/>
+                    <img
+                        src={product.mainProduct?.images[currentImageIndex] || ""}
+                        alt="Product"
+                        className="w-full h-full max-w-md mb-4"
+                    />
+                    <button
+                        onClick={() => setCurrentImageIndex((currentImageIndex - 1 + product.mainProduct?.images.length) % product.mainProduct?.images.length)}
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full">
+                        <img src={arrowLeft} alt="Previous"/>
                     </button>
-                    <button onClick={handleNextImage}
-                            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full">
-                        <img src={arrowRight}/>
+                    <button
+                        onClick={() => setCurrentImageIndex((currentImageIndex + 1) % product.mainProduct?.images.length)}
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full">
+                        <img src={arrowRight} alt="Next"/>
                     </button>
 
-                    {/* Thumbnail Images */}
-                    <div className="flex gap-2 mt-2">
-                        {images.map((image, index) => (
+                    {/* Thumbnails for image selection */}
+                    <div className="flex mt-4 space-x-2">
+                        {product.mainProduct?.images.map((image, index) => (
                             <img
                                 key={index}
                                 src={image}
-                                alt={`Thumbnail ${index + 1}`}
-                                onClick={() => handleThumbnailClick(index)}
+                                alt="Thumbnail"
                                 className={`w-16 h-16 cursor-pointer ${currentImageIndex === index ? 'border-2 border-red-500' : 'border border-gray-300'}`}
+                                onClick={() => setCurrentImageIndex(index)}
                             />
                         ))}
                     </div>
                 </div>
 
-                {/* Right Column - Product Options */}
                 <div className="w-full md:w-1/2 flex flex-col gap-4">
-                    {/* Storage Options */}
+                    <div className="text-2xl font-bold text-gray-800 truncate">{product.mainProduct?.name}</div>
+
+                    {/* Display Current Price */}
+                    {currentPrice && (
+                        <div className="text-3xl font-semibold text-red-500">
+                            {currentPrice.toLocaleString()}đ
+                        </div>
+                    )}
+
                     <div>
                         <h3 className="text-lg font-semibold mb-2">Chọn dung lượng bộ nhớ trong</h3>
                         <div className="flex gap-2 flex-wrap">
-                            {storageOptions.map((option) => (
+                            {Object.keys(groupedVariants).map((storage) => (
                                 <button
-                                    key={option.label}
-                                    onClick={() => handleStorageClick(option.label)}
-                                    className={`p-2 border rounded ${selectedStorage === option.label ? 'border-red-500 text-red-500' : 'border-gray-300'}`}
+                                    key={storage}
+                                    onClick={() => handleStorageClick(storage)}
+                                    className={`p-2 border rounded ${selectedStorage === storage ? 'border-red-500 text-red-500' : 'border-gray-300'}`}
                                 >
-                                    {option.label} <br/> <span className="text-sm font-medium">{option.price}</span>
+                                    {storage}
                                 </button>
                             ))}
                         </div>
                     </div>
 
-                    {/* Color Options */}
                     <div>
-                        <h3 className="text-lg font-semibold mb-2">Chọn màu sắc yêu thích</h3>
+                        <h3 className="text-lg font-semibold mb-2">Chọn màu sắc</h3>
                         <div className="flex gap-2 flex-wrap">
-                            {colorOptions.map((option) => (
+                            {selectedStorage && groupedVariants[selectedStorage].map((variant) => (
                                 <button
-                                    key={option.label}
-                                    onClick={() => handleColorClick(option.label)}
-                                    className={`p-2 border rounded ${selectedColor === option.label ? 'border-red-500 text-red-500' : 'border-gray-300'}`}
+                                    key={variant.color}
+                                    onClick={() => handleColorClick(variant.color)}
+                                    className={`p-2 border rounded ${selectedColor === variant.color ? 'border-red-500 text-red-500' : 'border-gray-300'}`}
                                 >
-                                    {option.label} <br/> <span className="text-sm font-medium">{option.price}</span>
+                                    {variant.color}
                                 </button>
                             ))}
                         </div>
@@ -132,11 +169,9 @@ const DetailProduct = () => {
                             </button>
                         </div>
                         <div className="flex items-center gap-2">
-                            <button
-                                className="bg-blue-600 h-full w-1/2 rounded-2xl text-white py-2 font-semibold">TRẢ
+                            <button className="bg-blue-600 h-full w-1/2 rounded-2xl text-white py-2 font-semibold">TRẢ
                                 GÓP 0% <br/> <span className="text-xs">Trả trước chỉ từ 15.000.000</span></button>
-                            <button
-                                className="bg-blue-600 h-full w-1/2 rounded-2xl text-white py-2 font-semibold">Trả
+                            <button className="bg-blue-600 h-full w-1/2 rounded-2xl text-white py-2 font-semibold">Trả
                                 góp 0% qua thẻ tín dụng
                             </button>
                         </div>
@@ -151,36 +186,20 @@ const DetailProduct = () => {
 
             <div className="justify-center max-mx-auto mt-4 p-4 bg-white flex flex-col md:flex-row gap-4">
                 <div className="flex gap-2 p-4 space-x-3">
-                    <span
-                        onClick={() => setSelectedTab("description")}
-                        className={`text-xl p-3 border-2 rounded-lg font-semibold cursor-pointer ${selectedTab === "description" ? "border-red-500 text-red-500" : ""}`}
-                    >
-                        Mô tả
-                    </span>
-                    <span
-                        onClick={() => setSelectedTab("specs")}
-                        className={`text-xl p-3 border-2 rounded-lg font-semibold cursor-pointer ${selectedTab === "specs" ? "border-red-500 text-red-500" : ""}`}
-                    >
-                        Thông số kỹ thuật
-                    </span>
-                    <span
-                        onClick={() => setSelectedTab("reviews")}
-                        className={`text-xl p-3 border-2 rounded-lg font-semibold cursor-pointer ${selectedTab === "reviews" ? "border-red-500 text-red-500" : ""}`}
-                    >
-                        Đánh giá sản phẩm
-                    </span>
+                    <span onClick={() => setSelectedTab("description")}
+                          className={`text-xl p-3 border-2 rounded-lg font-semibold cursor-pointer ${selectedTab === "description" ? "border-red-500 text-red-500" : ""}`}>Mô tả</span>
+                    <span onClick={() => setSelectedTab("specs")}
+                          className={`text-xl p-3 border-2 rounded-lg font-semibold cursor-pointer ${selectedTab === "specs" ? "border-red-500 text-red-500" : ""}`}>Thông số kỹ thuật</span>
+                    <span onClick={() => setSelectedTab("reviews")}
+                          className={`text-xl p-3 border-2 rounded-lg font-semibold cursor-pointer ${selectedTab === "reviews" ? "border-red-500 text-red-500" : ""}`}>Đánh giá sản phẩm</span>
                 </div>
             </div>
 
-            {/* Render content based on selectedTab */}
-            <div className="max-w-7xl mx-auto mt-4 p-4 bg-white">
-                {/*{selectedTab === "description" && <ProductDescription/>}*/}
-                {selectedTab === "specs" && <TechnicalSpecs/>}
-                {/*{selectedTab === "reviews" && <ProductReviews/>}*/}
-            </div>
-
+            {/* Tab Content */}
+            {selectedTab === "specs" && <TechnicalSpecs product={product} />}
+            {selectedTab === "description" && <div className="p-4">{product.mainProduct?.description}</div>}
+            {selectedTab === "reviews" && <div className="p-4">Hiện chưa có đánh giá nào!</div>}
         </>
-
     );
 };
 

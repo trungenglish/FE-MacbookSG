@@ -8,21 +8,26 @@ import TinTuc from "./components/TinTuc/TinTuc.jsx";
 
 function App() {
     const location = useLocation();
+
+    const hideBannerPaths = [
+        '/register',
+        '/login',
+        '/branch',
+        '/detailProduct',
+        '/deliveryPolicy',
+        '/warrantyPolicy',
+        '/cart',
+        '/installmentPolicy',
+        '/news',
+        '/checkout'
+    ];
+
+    const shouldShowBanner = !hideBannerPaths.some(path => location.pathname.startsWith(path));
+
     return (
         <>
             <Header />
-            {!(location.pathname.startsWith('/register') ||
-                    location.pathname.startsWith('/login') ||
-                    location.pathname.startsWith('/branch') ||
-                    location.pathname.startsWith('/detailProduct') ||
-                    location.pathname.startsWith('/deliveryPolicy') ||
-                    location.pathname.startsWith('/warrantyPolicy') ||
-                    location.pathname.startsWith('/cart') ||
-                    location.pathname.startsWith('/installmentPolicy') ||
-                    location.pathname.startsWith('/news')) ||
-                    location.pathname.startsWith('/checkout') &&
-                <BannerSlider />
-            }
+            {shouldShowBanner && <BannerSlider />}
             <Outlet />
             <TinTuc/>
             <Footer />

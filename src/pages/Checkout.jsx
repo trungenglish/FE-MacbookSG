@@ -5,6 +5,7 @@ import momoPayment from "../assets/momoPayment.png";
 import zaloPay from "../assets/zaloPay.png";
 import { AuthContext } from "../components/context/AuthContext.jsx";
 import { getCity, getDistrict } from "../service/api/checkoutApi.js";
+import {createZaloPayment} from "../service/api/zaloPaymentApi.js";
 
 const Checkout = () => {
     const { cart } = useContext(CartContext);
@@ -15,12 +16,14 @@ const Checkout = () => {
     const [districts, setDistricts] = useState([]);
     const [selectedCity, setSelectedCity] = useState("");
     const [selectedDistrict, setSelectedDistrict] = useState("");
+    const [address, setAddress] = useState("");
+    const [note, setNote] = useState("");
+    const [ward, setWard] = useState("");
 
     useEffect(() => {
         const fetchCity = async () => {
             try {
                 const res = await getCity();
-                console.log("res", res);
                 const options = res.map((item) => ({
                     value: item.code,
                     label: item.name,
@@ -36,7 +39,7 @@ const Checkout = () => {
     const handleCityChange = async (e) => {
         const cityCode = e.target.value;
         setSelectedCity(cityCode);
-        setSelectedDistrict(""); // Reset district selection
+        setSelectedDistrict("");
 
         try {
             const res = await getDistrict(cityCode);
@@ -70,6 +73,32 @@ const Checkout = () => {
     const totalAmount = cart.reduce((total, item) => {
         return total + (item.priceAfterDiscount * item.quantityCart);
     }, 0);
+
+    const handleSubmit = async () => {
+        if (!selectedCity || !selectedDistrict || !ward || !address) {
+            alert("Vui lòng nhập đầy đủ thông tin địa chỉ trước khi thanh toán.");
+            return;
+        }
+
+        const fullAddress = `${selectedCity}, ${selectedDistrict}, ${ward}, ${address}`;
+
+        try {
+            if (selectedPayment === "ZaloPay") {
+                const res = await createZaloPayment(cart, totalQuantityCart, totalAmount, fullAddress, note);
+                if (res.data.result.return_code === 1) {
+                    window.location.href = res.data.result.order_url;
+                } else {
+                    alert(res.EM || "Đã xảy ra lỗi khi tạo đơn hàng.");
+                }
+            } else if (selectedPayment === "COD") {
+                // Handle COD payment logic here
+            } else if (selectedPayment === "MoMo") {
+                // Handle MoMo payment logic here
+            }
+        } catch (error) {
+            console.error("Payment error:", error);
+        }
+    }
 
     return (
         <div className="min-h-screen bg-gray-100 flex justify-center py-10">
@@ -152,17 +181,22 @@ const Checkout = () => {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <input
+                                value={ward}đang
+                                onChange={(e) => setWard(e.target.value)}
                                 type="text"
                                 placeholder="Phường/Xã"
                                 className="w-full p-2 border rounded"
                             />
                             <input
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
                                 type="text"
                                 placeholder="Số nhà, Tên đường"
                                 className="w-full p-2 border rounded"
                             />
                         </div>
                         <textarea
+                            onChange={(e) => setNote(e.target.value)}
                             placeholder="Ghi chú khác (nếu có)"
                             className="w-full p-2 border rounded"
                         ></textarea>
@@ -218,7 +252,9 @@ const Checkout = () => {
                     </div>
                 </div>
 
-                <button className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700">
+                <button
+                    onClick={handleSubmit}
+                    className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700">
                     Đặt hàng
                 </button>
             </div>
