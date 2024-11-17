@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {useContext, useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 import { getProductById } from "../service/api/productApi.js";
 import TechnicalSpecs from "../components/Product/TechnicalSpecs.jsx";
 import arrowLeft from "../assets/arrow-left-50.png";
 import arrowRight from "../assets/arrow-right-50.png";
 import gioHang from "../assets/giohang.jpg";
-import { Spin } from "antd";
+import {notification, Spin} from "antd";
+import {CartContext} from "../components/context/CartContext.jsx";
 
 const DetailProduct = () => {
+    const navigate = useNavigate();
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
     const [appLoading, setAppLoading] = useState(false);
@@ -48,6 +50,8 @@ const DetailProduct = () => {
         fetchProduct();
     }, [productId]);
 
+    console.log("variant", product)
+
     // Update price when selected storage and color change
     useEffect(() => {
         if (selectedStorage && selectedColor) {
@@ -64,6 +68,51 @@ const DetailProduct = () => {
     };
 
     const handleColorClick = (color) => setSelectedColor(color);
+
+    const {dispatch} = useContext(CartContext);
+
+    const handleAddToCart = () => {
+        if (selectedStorage && selectedColor) {
+            // Tìm biến thể chính xác dựa vào dung lượng và màu sắc đã chọn
+            const selectedVariant = groupedVariants[selectedStorage]?.find(
+                variant => variant.color === selectedColor
+            );
+
+            if (selectedVariant) {
+                notification.success({
+                    message: "Thêm vào giỏ hàng thành công",
+                    description: `${product.mainProduct.name} (${selectedStorage}, ${selectedColor}) đã được thêm vào giỏ hàng`,
+                    placement: "topRight",
+                    duration: 2,
+                });
+
+                dispatch({
+                    type: "ADD_TO_CART",
+                    payload: {
+                        ...selectedVariant,
+                        idPro: {
+                            name: product.mainProduct.name,
+                            images: [ product.mainProduct.images[0]]
+                        },
+                    },
+                });
+            } else {
+                notification.error({
+                    message: "Lỗi",
+                    description: "Không tìm thấy biến thể sản phẩm",
+                    placement: "topRight",
+                    duration: 2,
+                });
+            }
+        } else {
+            notification.warning({
+                message: "Chọn biến thể",
+                description: "Vui lòng chọn dung lượng và màu sắc trước khi thêm vào giỏ hàng",
+                placement: "topRight",
+                duration: 2,
+            });
+        }
+    };
 
     if (appLoading) {
         return (
@@ -159,12 +208,19 @@ const DetailProduct = () => {
                     {/* Action Buttons */}
                     <div className="flex flex-col gap-2">
                         <div className="flex items-center gap-2 h-auto">
-                            <button className="bg-red-600 text-white w-full py-4 px-8 rounded-2xl font-semibold">MUA
-                                NGAY
+                            <button
+                                onClick={() => {
+                                    handleAddToCart();
+                                    navigate(`/cart`)
+                                }}
+                                className="bg-red-600 text-white w-full py-4 px-8 rounded-2xl font-semibold">
+                                MUA NGAY
                             </button>
                             <button
-                                className="border-4 border-red-500 rounded-lg p-1 w-1/6 h-16 flex flex-col items-center justify-center">
-                                <img src={gioHang} alt="Cart" className="w-6 h-6"/>
+                                onClick={handleAddToCart}
+                                className="border-2 border-red-500 rounded-lg p-1 w-1/5 h-16 flex flex-col items-center justify-center
+                                    transform transition-transform duration-200 hover:scale-110">
+                                <img src="https://bizweb.dktcdn.net/100/344/969/themes/705911/assets/carts.svg?1719463671033" alt="Cart" className=" w-6 h-6"/>
                                 <span className="text-red-500 text-xs font-semibold mt-1">thêm vào giỏ</span>
                             </button>
                         </div>
