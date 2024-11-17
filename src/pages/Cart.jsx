@@ -30,6 +30,8 @@ const CartPage = () => {
         return cart.reduce((acc, item) => acc + item.priceAfterDiscount * item.quantityCart, 0);
     };
 
+    console.log("check",cart)
+
     return (
         <div className="w-[90%] h-[90%] mx-auto mt-10 border rounded-lg p-6 md:p-8 bg-white shadow-md relative">
             <h2 className="text-xl md:text-2xl font-semibold mb-4 md:mb-6 border-b pb-2 md:pb-4">

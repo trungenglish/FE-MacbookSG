@@ -20,6 +20,8 @@ const ProductCard = ({ product }) => {
         });
     };
 
+    console.log(product);
+
     return (
         <div
             onClick={() => navigate(`/detailProduct/${product.idPro._id}`)}
