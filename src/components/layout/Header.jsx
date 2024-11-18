@@ -107,12 +107,20 @@ const Header = () => {
                         {isDropdownOpenAuth && (
                             <div className="absolute top-10 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                                 {user.isAuthenticated ? (
-                                    <button
-                                        onClick={handleLogout}
-                                        className="w-full px-4 py-3 text-left hover:bg-gray-100"
-                                    >
-                                        Đăng Xuất
-                                    </button>
+                                    <>
+                                        <button
+                                            onClick={() => navigate('/your-order')}
+                                            className="w-full px-4 py-3 text-left hover:bg-gray-100"
+                                        >
+                                            Đơn hàng
+                                        </button>
+                                        <button
+                                            onClick={handleLogout}
+                                            className="w-full px-4 py-3 text-left hover:bg-gray-100"
+                                        >
+                                            Đăng Xuất
+                                        </button>
+                                    </>
                                 ) : (
                                     <div className="flex flex-col">
                                         <button

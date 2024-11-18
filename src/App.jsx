@@ -30,8 +30,9 @@ function App() {
             <Header />
             {shouldShowBanner && <BannerSlider />}
             <Outlet />
-            <TinTuc/>
-            <Footer />
+            {!location.pathname.startsWith('/your-order') && <TinTuc/> && <Footer />}
+            {/*<TinTuc/>*/}
+            {/*<Footer />*/}
         </>
     )
 }
