@@ -19,7 +19,8 @@ function App() {
         '/cart',
         '/installmentPolicy',
         '/news',
-        '/checkout'
+        '/checkout',
+        '/your-order'
     ];
 
     const shouldShowBanner = !hideBannerPaths.some(path => location.pathname.startsWith(path));

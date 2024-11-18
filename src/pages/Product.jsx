@@ -2,7 +2,7 @@ import ProductList from "../components/Product/ProductList.jsx";
 import Filter from "../components/Product/Fiilter.jsx";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {filterIncrease, getProductByCategory} from "../service/api/productApi.js";
+import {filterDecrease, filterIncrease, getProductByCategory} from "../service/api/productApi.js";
 
 const Product = () => {
     const { categoryId} = useParams();
@@ -27,6 +27,7 @@ const Product = () => {
     const filterProductsIncrease = async() => {
         setAppLoading(true);
         const res = await filterIncrease(categoryId);
+        console.log("check res2no", res);
         if (res && res.EC === 0) {
             setProducts(res.data);
         }else {
@@ -37,7 +38,8 @@ const Product = () => {
 
     const filterProductsDecrease = async() => {
         setAppLoading(true);
-        const res = await filterIncrease(categoryId);
+        const res = await filterDecrease(categoryId);
+        console.log("check res1", res);
         if (res && res.EC === 0) {
             setProducts(res.data);
         }else {

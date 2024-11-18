@@ -18,6 +18,7 @@ import News from "../pages/News.jsx";
 import NewsDetail from "../components/TinTuc/NewsDetail.jsx";
 import TechnicalSpecs from "../components/Product/TechnicalSpecs.jsx";
 import Checkout from "../pages/Checkout.jsx";
+import OrderManagement from "../pages/OrderManagement.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -80,11 +81,11 @@ export const router = createBrowserRouter([
             {
                 path: "checkout",
                 element: <Checkout />,
+            },
+            {
+                path: "your-order",
+                element: <OrderManagement />,
             }
-            // {
-            //     path: "checkout",
-            //     element: <ProtectedRoute></ProtectedRoute>,
-            // }
         ]
     },
 ]);
