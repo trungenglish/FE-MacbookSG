@@ -28,6 +28,25 @@ const HotSale = () => {
       salePrice: "15.000.000 đ",
       image: productImage,
     },
+    {
+      name: "Macbook Pro M1 - 99%",
+      originalPrice: "16.800.000 đ",
+      salePrice: "15.000.000 đ",
+      image: productImage,
+    },
+    {
+      name: "Macbook Pro M1 - 99%",
+      originalPrice: "16.800.000 đ",
+      salePrice: "15.000.000 đ",
+      image: productImage,
+    },
+    {
+      name: "Macbook Pro M1 - 99%",
+      originalPrice: "16.800.000 đ",
+      salePrice: "15.000.000 đ",
+      image: productImage,
+    },
+
   ];
 
   return (
