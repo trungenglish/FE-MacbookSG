@@ -6,8 +6,12 @@ import zaloPay from "../assets/zaloPay.png";
 import { AuthContext } from "../components/context/AuthContext.jsx";
 import { getCity, getDistrict } from "../service/api/checkoutApi.js";
 import {createZaloPayment} from "../service/api/zaloPaymentApi.js";
+import {createOrder} from "../service/api/orderApi.js";
+import {notification} from "antd";
+import {useNavigate} from "react-router-dom";
 
 const Checkout = () => {
+    const navigate = useNavigate();
     const { cart } = useContext(CartContext);
     const { user } = useContext(AuthContext);
     const [selectedPayment, setSelectedPayment] = useState("Thanh toán khi nhận hàng (COD)");
@@ -90,8 +94,18 @@ const Checkout = () => {
                 } else {
                     alert(res.EM || "Đã xảy ra lỗi khi tạo đơn hàng.");
                 }
-            } else if (selectedPayment === "COD") {
-                // Handle COD payment logic here
+            } else if (selectedPayment === "Thanh toán khi nhận hàng (COD)") {
+                const res = await createOrder(cart, totalQuantityCart, totalAmount, fullAddress, note);
+                console.log(">>>",res)
+                if (res.EC === 0) {
+                   notification.success({
+                        message: "Đặt hàng thành công",
+                        description: "Đơn hàng"
+                   });
+                   navigate("/your-order");
+                } else {
+                    alert(res.EM || "Đã xảy ra lỗi khi tạo đơn hàng.");
+                }
             } else if (selectedPayment === "MoMo") {
                 // Handle MoMo payment logic here
             }
