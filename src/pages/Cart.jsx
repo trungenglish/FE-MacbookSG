@@ -2,6 +2,9 @@ import React, { useContext, useState } from "react";
 import { BsBagX } from "react-icons/bs";
 import { CartContext } from "../components/context/CartContext.jsx";
 import {useNavigate} from "react-router-dom";
+import {RemoveFromCartCommand} from "../components/context/CartCommand.jsx";
+import {cartManager} from "../components/context/CartManager.jsx";
+import {notification} from "antd";
 
 const CartPage = () => {
     const navigate = useNavigate();
@@ -22,8 +25,39 @@ const CartPage = () => {
         }
     };
 
+    // const handleRemoveItem = (productId) => {
+    //     dispatch({ type: "REMOVE_FROM_CART", payload: { _id: productId } });
+    // };
+
     const handleRemoveItem = (productId) => {
-        dispatch({ type: "REMOVE_FROM_CART", payload: { _id: productId } });
+        const product = cart.find(item => item._id === productId);
+        if (!product) return;
+
+        const command = new RemoveFromCartCommand(dispatch, product);
+        cartManager.execute(command);
+
+        notification.success({
+            message: "Đã xóa sản phẩm khỏi giỏ hàng",
+            description: "Sản phẩm đã được xóa khỏi giỏ hàng",
+            placement: "topRight",
+            duration: 2,
+            btn: (
+                <button
+                    className="bg-blue-500 text-white font-bold py-2 px-4 rounded mt-4"
+                    onClick={() => {
+                        cartManager.undo();
+                        notification.success({
+                            message: "Đã thêm sản phẩm vào giỏ hàng",
+                            description: "Sản phẩm đã được thêm vào giỏ hàng",
+                            placement: "topRight",
+                            duration: 2,
+                        });
+                    }}
+                >
+                    Hoàn tác
+                </button>
+            ),
+        });
     };
 
     const calculateTotal = () => {

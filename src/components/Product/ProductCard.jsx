@@ -2,21 +2,51 @@ import React, {useContext} from "react";
 import {CartContext} from "../context/CartContext.jsx";
 import {notification} from "antd";
 import {useNavigate} from "react-router-dom";
+import {AddToCartCommand} from "../context/CartCommand.jsx";
+import {cartManager} from "../context/CartManager.jsx";
 
 const ProductCard = ({ product }) => {
     const navigate = useNavigate();
     const {dispatch} = useContext(CartContext);
 
+    // const handleAddToCart = () => {
+    //     notification.success({
+    //         message: "Thêm vào giỏ hàng thành công",
+    //         description: `${product.idPro.name} đã được thêm vào giỏ hàng`,
+    //         placement: "topRight",
+    //         duration: 2,
+    //     });
+    //     dispatch({
+    //         type: "ADD_TO_CART",
+    //         payload: product,
+    //     });
+    // };
+
     const handleAddToCart = () => {
+        const command = new AddToCartCommand(dispatch, product);
+        cartManager.execute(command); // Lưu vào history
+
         notification.success({
             message: "Thêm vào giỏ hàng thành công",
             description: `${product.idPro.name} đã được thêm vào giỏ hàng`,
             placement: "topRight",
-            duration: 2,
-        });
-        dispatch({
-            type: "ADD_TO_CART",
-            payload: product,
+            duration: 4,
+            btn: (
+                <button
+                    className="bg-blue-500 text-white font-bold py-2 px-4 rounded mt-4"
+                    onClick={() => {
+                        cartManager.undo();
+                        notification.success({
+                            message: "Đã xóa sản phẩm khỏi giỏ hàng",
+                            description: `${product.idPro.name} đã được xóa khỏi giỏ hàng`,
+                            placement: "topRight",
+                            duration: 2,
+                        });
+                    }}
+                >
+                    Hoàn tác
+                </button>
+            ),
         });
     };
 
@@ -79,7 +109,10 @@ const ProductCard = ({ product }) => {
                 </div>
                 {/* Nút giỏ hàng */}
                 <button
-                    onClick={handleAddToCart}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleAddToCart();
+                    }}
                     className="bg-gray-100 hover:bg-gray-300 text-gray-700 font-semibold p-4 rounded-full
                         transform transition-transform duration-200 hover:scale-110">
                     <img
