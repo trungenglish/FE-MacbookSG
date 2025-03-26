@@ -27,9 +27,10 @@ const ProductCard = ({ product }) => {
         cartManager.execute(command); // Lưu vào history
 
         notification.success({
+
             message: "Thêm vào giỏ hàng thành công",
             description: `${product.idPro.name} đã được thêm vào giỏ hàng`,
-            placement: "topRight",
+            placement: "topLeft",
             duration: 4,
             btn: (
                 <button
@@ -39,7 +40,7 @@ const ProductCard = ({ product }) => {
                         notification.success({
                             message: "Đã xóa sản phẩm khỏi giỏ hàng",
                             description: `${product.idPro.name} đã được xóa khỏi giỏ hàng`,
-                            placement: "topRight",
+                            placement: "topLeft",
                             duration: 2,
                         });
                     }}

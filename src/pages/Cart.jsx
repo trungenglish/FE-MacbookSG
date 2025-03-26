@@ -39,7 +39,7 @@ const CartPage = () => {
         notification.success({
             message: "Đã xóa sản phẩm khỏi giỏ hàng",
             description: "Sản phẩm đã được xóa khỏi giỏ hàng",
-            placement: "topRight",
+            placement: "topLeft",
             duration: 2,
             btn: (
                 <button
@@ -49,7 +49,7 @@ const CartPage = () => {
                         notification.success({
                             message: "Đã thêm sản phẩm vào giỏ hàng",
                             description: "Sản phẩm đã được thêm vào giỏ hàng",
-                            placement: "topRight",
+                            placement: "topLeft",
                             duration: 2,
                         });
                     }}

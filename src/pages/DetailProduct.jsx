@@ -82,7 +82,7 @@ const DetailProduct = () => {
                 notification.success({
                     message: "Thêm vào giỏ hàng thành công",
                     description: `${product.mainProduct.name} (${selectedStorage}, ${selectedColor}) đã được thêm vào giỏ hàng`,
-                    placement: "topRight",
+                    placement: "topLeft",
                     duration: 2,
                 });
 
